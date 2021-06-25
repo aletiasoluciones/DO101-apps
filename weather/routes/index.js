@@ -2,8 +2,17 @@ const express = require('express');
 const router = express.Router();
 const fetch = require("node-fetch");
 require('dotenv').config();
-const OWM_API_KEY = process.env.OWM_API_KEY || 'invalid_key';
+//const OWM_API_KEY = process.env.OWM_API_KEY || 'invalid_key';
+const fs = require('fs');
 const UNITS = process.env.UNITS || 'metric';
+
+fs.readFile('/etc/ocp_configs/OWM_API_KEY', 'utf8', (err, data)=>{
+  if (err){
+    OWM_API_KEY = 'invalid_key';
+    return;
+  }
+  OWM_API_KEY = data;
+});
 
 /* GET home page. */
 router.get('/', function(req, res) {
